@@ -1,26 +1,33 @@
 const { TelegramClient, Api } = require("telegram");
 const { StringSession } = require("telegram/sessions");
-const input = require("input"); // npm i input
+const input = require("input");
 
-const apiId = 113;
-const apiHash = "hash";
-const stringSession = new StringSession("");
-// fill this later with the value from session.save()
 
-(async () => {
-  console.log("Loading interactive example...");
+const authenticate = async () =>{
+  const apiId = 113;
+  const apiHash = "hash";
+  // fill this later with the value from session.save()
+  const stringSession = new StringSession("");
+  
   const client = new TelegramClient(stringSession, apiId, apiHash, {
     connectionRetries: 5,
   });
+
+  // Authenticate using bot_token or your telegram account
   await client.start({
     // phoneNumber: async () => await input.text("Please enter your number: "),
     // password: async () => await input.text("Please enter your password: "),
     // phoneCode: async () => await input.text("Please enter the code you received: "),
-    //   onError: (err) => console.log(err),
+    // onError: (err) => console.log(err),
     botAuthToken: "your_bot_token",
   });
   console.log("You should now be connected.");
-  console.log(client.session.save()); // Save this string to avoid logging in again
+  console.log("Session token: ", client.session.save());
+  return client;
+}
+
+const command = async () => {
+  const client = await authenticate();
 
   //Get all recent user in another group chat
   let result = await client.invoke(
@@ -44,4 +51,6 @@ const stringSession = new StringSession("");
     })
   );
   console.log(response);
-})();
+};
+
+command();
