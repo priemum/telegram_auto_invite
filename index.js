@@ -15,10 +15,10 @@ const authenticate = async () => {
 
   // Authenticate using bot_token or your telegram account
   await client.start({
-    // phoneNumber: async () => await input.text("Please enter your number: "),
-    // password: async () => await input.text("Please enter your password: "),
-    // phoneCode: async () => await input.text("Please enter the code you received: "),
-    // onError: (err) => console.log(err),
+    phoneNumber: async () => await input.text("Please enter your number: "),
+    password: async () => await input.text("Please enter your password: "),
+    phoneCode: async () => await input.text("Please enter the code you received: "),
+    onError: (err) => console.log(err),
     botAuthToken: "",
   });
   console.log("You should now be connected.");
@@ -32,7 +32,7 @@ const command = async () => {
     //Get all recent user in another group chat
     let result = await client.invoke(
       new Api.channels.GetParticipants({
-        channel: "channel_id",
+        channel: "source_channel_id",
         filter: new Api.ChannelParticipantsRecent({}),
         offset: 1,
         limit: 10,
@@ -46,7 +46,7 @@ const command = async () => {
     //Invite them to another group
     var response = await client.invoke(
       new Api.channels.InviteToChannel({
-        channel: "another_channel_id",
+        channel: "destination_channel_id",
         users: users,
       })
     );
