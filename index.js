@@ -4,7 +4,7 @@ const input = require("input");
 
 
 const authenticate = async () => {
-  const apiId = api_id;
+  const apiId = api_id;        
   const apiHash = "api_hash";
   // fill this later with the value from session.save()
   const stringSession = new StringSession("");
